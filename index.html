@@ -1,0 +1,53 @@
+<html lang="en"><head></head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <script src="https://unpkg.com/vue@2.7.8/dist/vue.js"></script>
+    <title>Pet Store App</title>
+</head>
+<body>
+    <div id="app"><header><h1>Pet Store App 3</h1> <button>
+                
+                <span class="fas fa-shopping-cart"></span>
+                Checkout
+            </button></header> <div><main><figure><img src="images/product-fullsize.png"></figure> <h1>Cat Food, 25lb bag</h1> <p>A 25 pound bag of irresistible, organic goodness for your cat.</p> <p>Price: 2000</p> <button>Add to the Cart</button></main></div></div>
+
+    <script>
+        let webstore = new Vue({
+            el: "#app",
+            data: {
+                sitename: "Pet Store App 3",
+                showProduct: true,
+                product: {
+                    id: 1001,
+                    title: "Cat Food, 25lb bag",
+                    description: "A 25 pound bag of irresistible, " + "organic goodness for your cat.",
+                    price: 2000,
+                    image: "images/product-fullsize.png",
+                    availableItemsInventory: 5
+                },
+                cart: []
+            },
+            methods: {
+                addItemToCart: function() {
+                    this.cart.push(this.product.id);
+                },
+                toggleShowProduct() {
+                    this.showProduct = this.showProduct ? false : true;
+                }
+            },
+            computed: {
+                totalItemsInTheCart: function() {
+                    return this.cart.length || "";
+                },
+                canAddToCart() {
+                    return this.product.availableItemsInventory > this.totalItemsInTheCart;
+                }
+            }
+        })
+    </script>
+
+
+</body></html>
