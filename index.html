@@ -1,73 +1,15 @@
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css"> <!-- Link to CSS file -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
     <script src="https://unpkg.com/vue@2.7.8/dist/vue.js"></script>
+    <script src="vue.js" defer></script> <!-- Link to JS file -->
     <title>Lesson List</title>
-    <style>
-        /* General styling */
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background: linear-gradient(45deg, rgb(199, 129, 17), rgb(61, 25, 180), rgb(162, 39, 39));
-        }
-
-        header {
-            background-color: #333;
-            color: #fff;
-            padding: 1em;
-            text-align: center;
-        }
-
-        main {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 20px;
-        }
-
-        /* Lesson card styling */
-        .lesson {
-            background-color: #fff;
-            border: 2px solid rgb(0, 0, 0);
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
-            padding: 20px;
-            margin: 10px;
-            width: 50%;
-            text-align: center;
-        }
-
-
-        .lesson img {
-            max-width: 100px;
-            height: auto;
-            margin-bottom: 10px;
-        }
-
-        button {
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            padding: 10px;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        button:hover {
-            background-color: #45a049;
-        }
-
-        .full {
-            color: red;
-            font-weight: bold;
-            text-decoration: underline;
-        }
-    </style>
 </head>
 
 <body>
@@ -88,34 +30,6 @@
             </div>
         </main>
     </div>
-
-    <script>
-        let app = new Vue({
-            el: "#app",
-            data: {
-                sitename: "Lesson Booking",
-                lessons: [
-                    { id: 1, subject: "Math", location: "Room 101", price: 50, spaces: 3, image: "images/.png" },
-                    { id: 2, subject: "Science", location: "Room 102", price: 60, spaces: 5, image: "images/science.png" },
-                    { id: 3, subject: "History", location: "Room 103", price: 40, spaces: 2, image: "images/history.png" },
-                    { id: 4, subject: "English", location: "Room 104", price: 45, spaces: 0, image: "images/english.png" },
-                    { id: 5, subject: "Art", location: "Room 105", price: 55, spaces: 4, image: "images/art.png" },
-                    { id: 6, subject: "Music", location: "Room 106", price: 70, spaces: 1, image: "images/music.png" },
-                    { id: 7, subject: "Physics", location: "Room 107", price: 65, spaces: 5, image: "images/physics.png" },
-                    { id: 8, subject: "Chemistry", location: "Room 108", price: 50, spaces: 0, image: "images/chemistry.png" },
-                    { id: 9, subject: "Biology", location: "Room 109", price: 60, spaces: 2, image: "images/biology.png" },
-                    { id: 10, subject: "Geography", location: "Room 110", price: 50, spaces: 3, image: "images/geography.png" }
-                ]
-            },
-            methods: {
-                bookSpace(lesson) {
-                    if (lesson.spaces > 0) {
-                        lesson.spaces--;
-                    }
-                }
-            }
-        });
-    </script>
 </body>
 
 </html>
