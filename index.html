@@ -1,54 +1,57 @@
-<html lang="en"><head></head>
+<html lang="en">
+<head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
     <script src="https://unpkg.com/vue@2.7.8/dist/vue.js"></script>
-    <title>Pet Store App</title>
+    <title>Lesson List</title>
 </head>
 <body>
-    <div id="app"><header><h1>Pet Store App 3</h1> <button>
-                
-                <span class="fas fa-shopping-cart"></span>
-                Checkout
-            </button></header> <div><main><figure><img src="images/product-fullsize.png"></figure> <h1>Cat Food, 25lb bag</h1> <p>A 25 pound bag of irresistible, organic goodness for your cat.</p> <p>Price: 2000</p> <button>Add to the Cart</button></main></div></div>
+    <div id="app">
+        <header>
+            <h1>{{ sitename }}</h1>
+        </header>
+        
+        <main>
+            <div class="lesson" v-for="lesson in lessons" :key="lesson.id">
+                <h2>{{ lesson.subject }}</h2>
+                <p>Location: {{ lesson.location }}</p>
+                <p>Price: ${{ lesson.price }}</p>
+                <p>Spaces: {{ lesson.spaces }} / 5</p>
+                <img :src="lesson.image" :alt="lesson.subject" width="100">
+                <button v-if="lesson.spaces > 0" @click="bookSpace(lesson)">Book Now</button>
+                <p v-else class="full">Full</p>
+            </div>
+        </main>
+    </div>
 
     <script>
-        let webstore = new Vue({
+        let app = new Vue({
             el: "#app",
             data: {
-                sitename: "Pet Store App 3",
-                showProduct: true,
-                product: {
-                    id: 1001,
-                    title: "Cat Food, 25lb bag",
-                    description: "A 25 pound bag of irresistible, " + "organic goodness for your cat.",
-                    price: 2000,
-                    image: "images/product-fullsize.png",
-                    availableItemsInventory: 5
-                },
-                cart: []
+                sitename: "Lesson Booking",
+                lessons: [
+                    { id: 1, subject: "Math", location: "Room 101", price: 50, spaces: 3, image: "images/math.png" },
+                    { id: 2, subject: "Science", location: "Room 102", price: 60, spaces: 5, image: "images/science.png" },
+                    { id: 3, subject: "History", location: "Room 103", price: 40, spaces: 2, image: "images/history.png" },
+                    { id: 4, subject: "English", location: "Room 104", price: 45, spaces: 0, image: "images/english.png" },
+                    { id: 5, subject: "Art", location: "Room 105", price: 55, spaces: 4, image: "images/art.png" },
+                    { id: 6, subject: "Music", location: "Room 106", price: 70, spaces: 1, image: "images/music.png" },
+                    { id: 7, subject: "Physics", location: "Room 107", price: 65, spaces: 5, image: "images/physics.png" },
+                    { id: 8, subject: "Chemistry", location: "Room 108", price: 50, spaces: 0, image: "images/chemistry.png" },
+                    { id: 9, subject: "Biology", location: "Room 109", price: 60, spaces: 2, image: "images/biology.png" },
+                    { id: 10, subject: "Geography", location: "Room 110", price: 50, spaces: 3, image: "images/geography.png" }
+                ]
             },
             methods: {
-                addItemToCart: function() {
-                    this.cart.push(this.product.id);
-                },
-                toggleShowProduct() {
-                    this.showProduct = this.showProduct ? false : true;
-                }
-            },
-            computed: {
-                totalItemsInTheCart: function() {
-                    return this.cart.length || "";
-                },
-                canAddToCart() {
-                    return this.product.availableItemsInventory > this.totalItemsInTheCart;
+                bookSpace(lesson) {
+                    if (lesson.spaces > 0) {
+                        lesson.spaces--;
+                    }
                 }
             }
-        })
+        });
     </script>
-
-<!--this is a comment-->
-
-</body></html>
+</body>
+</html>
