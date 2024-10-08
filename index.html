@@ -6,6 +6,64 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
     <script src="https://unpkg.com/vue@2.7.8/dist/vue.js"></script>
     <title>Lesson List</title>
+    <style>
+        /* General styling */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 1em;
+            text-align: center;
+        }
+
+        main {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        /* Lesson card styling */
+        .lesson {
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin: 10px;
+            width: 300px;
+            text-align: center;
+        }
+
+        .lesson img {
+            max-width: 100px;
+            height: auto;
+            margin-bottom: 10px;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .full {
+            color: red;
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
     <div id="app">
@@ -16,10 +74,10 @@
         <main>
             <div class="lesson" v-for="lesson in lessons" :key="lesson.id">
                 <h2>{{ lesson.subject }}</h2>
+                <img :src="lesson.image" :alt="lesson.subject">
                 <p>Location: {{ lesson.location }}</p>
                 <p>Price: ${{ lesson.price }}</p>
                 <p>Spaces: {{ lesson.spaces }} / 5</p>
-                <img :src="lesson.image" :alt="lesson.subject" width="100">
                 <button v-if="lesson.spaces > 0" @click="bookSpace(lesson)">Book Now</button>
                 <p v-else class="full">Full</p>
             </div>
