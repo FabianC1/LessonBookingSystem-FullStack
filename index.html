@@ -1,4 +1,5 @@
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -12,7 +13,7 @@
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background: linear-gradient(45deg, rgb(199, 129, 17),  rgb(61, 25, 180), rgb(162, 39, 39));
+            background: linear-gradient(45deg, rgb(199, 129, 17), rgb(61, 25, 180), rgb(162, 39, 39));
         }
 
         header {
@@ -32,15 +33,15 @@
         /* Lesson card styling */
         .lesson {
             background-color: #fff;
+            border: 2px solid rgb(0, 0, 0);
             border-radius: 5px;
-            border-width: 10px;
-            border-color: gray;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
             padding: 20px;
             margin: 10px;
             width: 50%;
             text-align: center;
         }
+
 
         .lesson img {
             max-width: 100px;
@@ -64,15 +65,17 @@
         .full {
             color: red;
             font-weight: bold;
+            text-decoration: underline;
         }
     </style>
 </head>
+
 <body>
     <div id="app">
         <header>
             <h1>{{ sitename }}</h1>
         </header>
-        
+
         <main>
             <div class="lesson" v-for="lesson in lessons" :key="lesson.id">
                 <h2>{{ lesson.subject }}</h2>
@@ -81,7 +84,7 @@
                 <p>Price: ${{ lesson.price }}</p>
                 <p>Spaces: {{ lesson.spaces }} / 5</p>
                 <button v-if="lesson.spaces > 0" @click="bookSpace(lesson)">Book Now</button>
-                <p v-else class="full">Full</p>
+                <p v-else class="full">This class is full</p>
             </div>
         </main>
     </div>
@@ -92,7 +95,7 @@
             data: {
                 sitename: "Lesson Booking",
                 lessons: [
-                    { id: 1, subject: "Math", location: "Room 101", price: 50, spaces: 3, image: "images/math.png" },
+                    { id: 1, subject: "Math", location: "Room 101", price: 50, spaces: 3, image: "images/.png" },
                     { id: 2, subject: "Science", location: "Room 102", price: 60, spaces: 5, image: "images/science.png" },
                     { id: 3, subject: "History", location: "Room 103", price: 40, spaces: 2, image: "images/history.png" },
                     { id: 4, subject: "English", location: "Room 104", price: 45, spaces: 0, image: "images/english.png" },
@@ -114,4 +117,5 @@
         });
     </script>
 </body>
+
 </html>
