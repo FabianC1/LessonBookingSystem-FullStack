@@ -1,7 +1,7 @@
 let app = new Vue({
     el: "#app",
     data: {
-        sitename: "Lesson Booking",
+        sitename: "Book your lesson",
         lessons: [
             { id: 1, subject: "Math", location: "Room 101", price: 50, spaces: 3, image: "images/maths.png", duration: 2 },
             { id: 2, subject: "Science", location: "Room 102", price: 60, spaces: 5, image: "images/science.jpg", duration: 1.5 },
