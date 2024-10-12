@@ -44,9 +44,10 @@
                     <label for="max-price">Max Price:</label>
                     <input type="number" v-model="maxPrice" placeholder="100" @input="validatePrices" />
 
-                    <label>
-                        <input type="checkbox" v-model="excludeFull"> Exclude full lessons
+                    <label for="exclude-full">
+                        <input type="checkbox" v-model="excludeFull" id="exclude-full"> Exclude full lessons
                     </label>
+                    
 
                     <label for="search">Search:</label>
                     <input type="text" v-model="searchQuery" placeholder="Search for lessons" />
