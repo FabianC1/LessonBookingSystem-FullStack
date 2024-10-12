@@ -12,28 +12,28 @@ header {
     color: #fff;
     padding: 1em;
     height: 90px;
-    display: flex; /* Use flexbox for layout */
-    align-items: center; /* Center items vertically */
-    position: relative; /* Position relative for absolute child */
+    display: flex;
+    align-items: center; 
+    position: relative; 
     opacity: 0.9;
 }
 
 header i {
-    font-size: 24px; /* Adjust size as needed */
-    margin-right: 10px; /* Space between icon and title */
-    color: #fff; /* Set icon color */
+    font-size: 24px; 
+    margin-right: 10px; 
+    color: #fff; 
 }
 
 header h1 {
-    flex-grow: 1; /* Allow h1 to grow and take available space */
-    text-align: center; /* Center the title */
-    margin: 0; /* Remove default margin */
+    flex-grow: 1; 
+    text-align: center; 
+    margin: 0; 
 }
 
 .header-icon {
-    width: 100px; /* Adjust the size */
-    height: auto; /* Maintain aspect ratio */
-    margin-right: 10px; /* Space between icon and title */
+    width: 100px; 
+    height: auto; 
+    margin-right: 10px; 
     margin-left: 20px;
     border-radius: 15px;
 }
@@ -45,11 +45,11 @@ main {
 
 /* Lesson cards container */
 .lesson-container {
-    display: flex; /* Use flexbox for lesson cards */
-    flex-direction: column; /* Stack lesson cards vertically */
-    align-items: center; /* Center lesson cards */
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
     padding: 20px;
-    flex-grow: 1; /* Allow this area to grow */
+    flex-grow: 1;
 }
 
 /* Lesson card styling */
@@ -60,7 +60,7 @@ main {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
     padding: 20px;
     margin: 10px;
-    width: 90%; /* Adjust the width for responsiveness */
+    width: 90%; 
     text-align: center;
 }
 
@@ -84,8 +84,8 @@ button:hover {
 }
 
 button:disabled {
-    background-color: #07380e; /* Light grey */
-    cursor: not-allowed; /* Show not-allowed cursor */
+    background-color: #07380e;
+    cursor: not-allowed; 
 }
 
 .full {
@@ -101,26 +101,26 @@ button:disabled {
     background-color: rgba(255, 255, 255, 0.141);
     opacity: 1;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-    border-top-right-radius: 15px; /* Adjust the radius as needed */
-    border-bottom-right-radius: 15px; /* Adjust the radius as needed */
+    border-top-right-radius: 15px; 
+    border-bottom-right-radius: 15px; 
 }
 
 .sorting-controls {
     margin-bottom: 20px;
     display: flex;
-    flex-direction: column; /* Stack labels and selects vertically */
+    flex-direction: column; 
 }
 
 /* Sorting controls styling */
 .sorting-controls label {
     color: #000000;
     font-weight: bold;
-    margin-bottom: 5px; /* Add space between label and select */
+    margin-bottom: 5px; 
 }
 
 .sorting-controls select {
     padding: 8px;
-    margin: 0 0 10px; /* Add space between selects */
+    margin: 0 0 10px; 
     border: 2px solid #333;
     border-radius: 5px;
     background-color: #f0f0f0;
@@ -149,7 +149,7 @@ button:disabled {
 /* Styling for min and max price inputs */
 .sorting-controls input[type="number"] {
     padding: 8px;
-    margin: 0 0 10px; /* Add space below the inputs */
+    margin: 0 0 10px;
     border: 2px solid #333;
     border-radius: 5px;
     background-color: #f0f0f0;
@@ -158,11 +158,11 @@ button:disabled {
 
 /* Styling for the Exclude Full Lessons checkbox */
 .sorting-controls input[type="checkbox"] {
-    margin-right: 10px; /* Space between checkbox and label */
+    margin-right: 10px; 
 }
 
 /* Styling for the checkbox label */
 .sorting-controls label[for="exclude-full"] {
-    font-weight: bold; /* Make the label bold */
-    color: #000000; /* Change text color to black */
+    font-weight: bold; 
+    color: #000000; 
 }
