@@ -20,6 +20,7 @@ let app = new Vue({
         maxPrice: null,
         excludeFull: false,
         priceError: null,
+        searchQuery: "",
     },
     computed: {
         filteredLessons() {
@@ -31,14 +32,16 @@ let app = new Vue({
                 if (this.maxPrice !== null && lesson.price > this.maxPrice) {
                     priceValid = false;
                 }
-                return priceValid && (!this.excludeFull || lesson.spaces > 0);
+
+                // New search functionality
+                const searchValid = lesson.subject.toLowerCase().includes(this.searchQuery.toLowerCase());
+
+                return priceValid && (!this.excludeFull || lesson.spaces > 0) && searchValid;
             }).sort((a, b) => {
                 let modifier = this.sortOrder === "ascending" ? 1 : -1;
                 if (this.sortAttribute === "price" || this.sortAttribute === "spaces" || this.sortAttribute === "duration") {
-                    // Sort by numerical values
                     return (a[this.sortAttribute] - b[this.sortAttribute]) * modifier;
                 } else {
-                    // Sort by string values (subject and location)
                     let aValue = a[this.sortAttribute].toLowerCase();
                     let bValue = b[this.sortAttribute].toLowerCase();
                     return aValue < bValue ? -1 * modifier : aValue > bValue ? 1 * modifier : 0;

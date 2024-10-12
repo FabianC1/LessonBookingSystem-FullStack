@@ -48,6 +48,9 @@
                         <input type="checkbox" v-model="excludeFull"> Exclude full lessons
                     </label>
 
+                    <label for="search">Search:</label>
+                    <input type="text" v-model="searchQuery" placeholder="Search for lessons" />
+
                     <div class="buttons">
                         <button @click="applyChanges">Apply Changes</button>
                         <button @click="resetChanges">Reset Changes</button>
