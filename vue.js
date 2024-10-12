@@ -15,11 +15,24 @@ let app = new Vue({
             { id: 10, subject: "Geography", location: "Room 110", price: 50, spaces: 3, image: "images/geography.jpg", duration: 2 }
         ],
         sortAttribute: "subject", // Default sort by subject
-        sortOrder: "ascending" // Default order
+        sortOrder: "ascending", // Default order
+        minPrice: null,
+        maxPrice: null,
+        excludeFull: false,
+        priceError: null,
     },
     computed: {
-        sortedLessons() {
-            return this.lessons.slice().sort((a, b) => {
+        filteredLessons() {
+            return this.lessons.filter(lesson => {
+                let priceValid = true;
+                if (this.minPrice !== null && lesson.price < this.minPrice) {
+                    priceValid = false;
+                }
+                if (this.maxPrice !== null && lesson.price > this.maxPrice) {
+                    priceValid = false;
+                }
+                return priceValid && (!this.excludeFull || lesson.spaces > 0);
+            }).sort((a, b) => {
                 let modifier = this.sortOrder === "ascending" ? 1 : -1;
                 if (this.sortAttribute === "price" || this.sortAttribute === "spaces" || this.sortAttribute === "duration") {
                     // Sort by numerical values
@@ -38,6 +51,22 @@ let app = new Vue({
             if (lesson.spaces > 0) {
                 lesson.spaces--;
             }
+        },
+        validatePrices() {
+            if (this.minPrice !== null && this.maxPrice !== null && this.minPrice > this.maxPrice) {
+                this.priceError = "Min Price cannot be greater than Max Price.";
+            } else {
+                this.priceError = null;
+            }
+        },
+        applyChanges() {
+            this.validatePrices();
+        },
+        resetChanges() {
+            this.minPrice = null;
+            this.maxPrice = null;
+            this.excludeFull = false;
+            this.priceError = null;
         }
     }
 });

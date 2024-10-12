@@ -4,6 +4,7 @@ body {
     margin: 0;
     padding: 0;
     background: linear-gradient(45deg, rgb(199, 129, 17), rgb(61, 25, 180), rgb(162, 39, 39));
+    background-size: cover; 
 }
 
 header {
@@ -41,8 +42,10 @@ header h1 {
 
 
 main {
-    display: flex; /* Use flexbox for layout */
+    display: flex;
+    min-height: 100vh;
 }
+
 
 /* Sidebar styling */
 .sidebar {
@@ -99,6 +102,12 @@ button {
 button:hover {
     background-color: #45a049;
 }
+
+button:disabled {
+    background-color: #07380e; /* Light grey */
+    cursor: not-allowed; /* Show not-allowed cursor */
+}
+
 
 .full {
     color: red;

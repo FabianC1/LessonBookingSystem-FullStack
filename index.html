@@ -37,20 +37,38 @@
                         <option value="ascending">Ascending</option>
                         <option value="descending">Descending</option>
                     </select>
+
+                    <label for="min-price">Min Price:</label>
+                    <input type="number" v-model="minPrice" placeholder="0" @input="validatePrices" />
+
+                    <label for="max-price">Max Price:</label>
+                    <input type="number" v-model="maxPrice" placeholder="100" @input="validatePrices" />
+
+                    <label>
+                        <input type="checkbox" v-model="excludeFull"> Exclude full lessons
+                    </label>
+
+                    <div class="buttons">
+                        <button @click="applyChanges">Apply Changes</button>
+                        <button @click="resetChanges">Reset Changes</button>
+                    </div>
+
+                    <p v-if="priceError" style="color: red;">{{ priceError }}</p>
                 </div>
             </div>
 
             <!-- Lesson cards -->
             <div class="lesson-container">
-                <div class="lesson" v-for="lesson in sortedLessons" :key="lesson.id">
+                <div class="lesson" v-for="lesson in filteredLessons" :key="lesson.id">
                     <h2>{{ lesson.subject }}</h2>
                     <img :src="lesson.image" :alt="lesson.subject">
                     <p>Location: {{ lesson.location }}</p>
                     <p>Price: ${{ lesson.price }}</p>
                     <p>Spaces: {{ lesson.spaces }} / 5</p>
-                    <p>Duration: {{ lesson.duration }} hours</p>
-                    <button v-if="lesson.spaces > 0" @click="bookSpace(lesson)">Book Now</button>
-                    <p v-else class="full">This class is full</p>
+                    <button :disabled="lesson.spaces === 0" @click="bookSpace(lesson)">
+                        Add to cart
+                    </button>
+                    <p v-if="lesson.spaces === 0" class="full">This class is full</p>
                 </div>
             </div>
         </main>
