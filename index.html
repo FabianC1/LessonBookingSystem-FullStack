@@ -22,7 +22,9 @@
         <main>
             <!-- Sidebar for sorting controls -->
             <div class="sidebar">
-                <div class="sorting-controls">
+                <!-- Sorting Section -->
+                <div class="sorting-section">
+                    <h2>Sort</h2>
                     <label for="sort-by">Sort by:</label>
                     <select v-model="sortAttribute">
                         <option value="subject">Subject</option>
@@ -37,29 +39,39 @@
                         <option value="ascending">Ascending</option>
                         <option value="descending">Descending</option>
                     </select>
+                </div>
 
+                <!-- Filter Section -->
+                <div class="filter-section">
+                    <h2>Filters</h2>
                     <label for="min-price">Min Price:</label>
-                    <input type="number" v-model="minPrice" placeholder="0" @input="validatePrices" />
+                    <input type="number" v-model="minPrice" placeholder="0" min="0" @input="validatePrices" />
 
                     <label for="max-price">Max Price:</label>
-                    <input type="number" v-model="maxPrice" placeholder="100" @input="validatePrices" />
+                    <input type="number" v-model="maxPrice" placeholder="100" min="0" @input="validatePrices" />
 
                     <label for="exclude-full">
                         <input type="checkbox" v-model="excludeFull" id="exclude-full"> Exclude full lessons
                     </label>
-                    
-
-                    <label for="search">Search:</label>
-                    <input type="text" v-model="searchQuery" placeholder="Search for lessons" />
 
                     <div class="buttons">
                         <button @click="applyChanges">Apply Changes</button>
                         <button @click="resetChanges">Reset Changes</button>
                     </div>
 
-                    <p v-if="priceError" style="color: red;">{{ priceError }}</p>
                 </div>
+
+
+                <!-- Search Section -->
+                <div class="search-section">
+                    <h2>Search</h2>
+                    <label for="search">Search:</label>
+                    <input type="text" v-model="searchQuery" placeholder="Search for lessons" />
+                </div>
+
+                <p v-if="priceError" style="color: red;">{{ priceError }}</p>
             </div>
+
 
             <!-- Lesson cards -->
             <div class="lesson-container">

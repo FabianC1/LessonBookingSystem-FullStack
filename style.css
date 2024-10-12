@@ -9,6 +9,7 @@ body {
 
 header {
     background-color: #000000;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
     color: #fff;
     padding: 1em;
     height: 90px;
@@ -105,10 +106,26 @@ button:disabled {
     border-bottom-right-radius: 15px; 
 }
 
-.sorting-controls {
-    margin-bottom: 20px;
-    display: flex;
-    flex-direction: column; 
+/* General section styling */
+.sidebar > div {
+    margin-bottom: 20px; /* Space between sections */
+    padding: 15px;
+    border-radius: 8px; /* Rounded corners for sections */
+}
+
+/* Sorting section */
+.sorting-section {
+    background-color: rgba(255, 255, 255, 0.8); /* Light background */
+}
+
+/* Filter section */
+.filter-section {
+    background-color: rgba(200, 230, 200, 0.8); /* Light green background */
+}
+
+/* Search section */
+.search-section {
+    background-color: rgba(200, 200, 230, 0.8); /* Light blue background */
 }
 
 /* Sorting controls styling */
@@ -118,51 +135,47 @@ button:disabled {
     margin-bottom: 5px; 
 }
 
-.sorting-controls select {
+/* Common input styles */
+input[type="text"],
+input[type="number"],
+select {
     padding: 8px;
     margin: 0 0 10px; 
     border: 2px solid #333;
     border-radius: 5px;
     background-color: #f0f0f0;
     font-size: 1em;
-    cursor: pointer;
 }
 
-.sorting-controls select:focus {
+/* Input focus styles */
+input[type="text"]:focus,
+input[type="number"]:focus,
+select:focus {
     outline: none;
     border-color: #4CAF50;
 }
 
-.sorting-controls select:hover {
+/* Input hover styles */
+input[type="text"]:hover,
+input[type="number"]:hover,
+select:hover {
     background-color: #e0e0e0;
 }
 
-.sorting-controls input[type="text"] {
-    padding: 8px;
-    margin: 0 0 10px;
-    border: 2px solid #333;
-    border-radius: 5px;
-    background-color: #f0f0f0;
-    font-size: 1em;
-}
-
-/* Styling for min and max price inputs */
-.sorting-controls input[type="number"] {
-    padding: 8px;
-    margin: 0 0 10px;
-    border: 2px solid #333;
-    border-radius: 5px;
-    background-color: #f0f0f0;
-    font-size: 1em;
-}
-
 /* Styling for the Exclude Full Lessons checkbox */
-.sorting-controls input[type="checkbox"] {
+input[type="checkbox"] {
     margin-right: 10px; 
 }
 
 /* Styling for the checkbox label */
-.sorting-controls label[for="exclude-full"] {
+label[for="exclude-full"] {
     font-weight: bold; 
     color: #000000; 
+}
+
+/* Buttons styling */
+.buttons {
+    margin-top: 20px;
+    display: flex; /* Ensure the buttons are in a row */
+    gap: 25px; /* Adjust this value for desired spacing */
 }

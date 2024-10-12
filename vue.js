@@ -56,20 +56,29 @@ let app = new Vue({
             }
         },
         validatePrices() {
+            // Ensuring minPrice and maxPrice are not below 0
+            if (this.minPrice < 0) {
+                this.minPrice = 0;
+            }
+            if (this.maxPrice < 0) {
+                this.maxPrice = 0;
+            }
+            
+            // Checking for Min Price greater than Max Price
             if (this.minPrice !== null && this.maxPrice !== null && this.minPrice > this.maxPrice) {
                 this.priceError = "Min Price cannot be greater than Max Price.";
             } else {
-                this.priceError = null;
+                this.priceError = null; // Clear error if validation passes
             }
         },
         applyChanges() {
-            this.validatePrices();
+            this.validatePrices(); // Call validation on apply
         },
         resetChanges() {
-            this.minPrice = null;
+            this.minPrice = null; // Reset prices
             this.maxPrice = null;
-            this.excludeFull = false;
-            this.priceError = null;
+            this.excludeFull = false; // Reset checkbox
+            this.priceError = null; // Clear error message
         }
     }
 });
