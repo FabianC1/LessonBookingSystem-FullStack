@@ -13,7 +13,25 @@ let app = new Vue({
             { id: 8, subject: "Chemistry", location: "Room 108", price: 50, spaces: 0, image: "images/chemistry.jpeg" },
             { id: 9, subject: "Biology", location: "Room 109", price: 60, spaces: 2, image: "images/biology.png" },
             { id: 10, subject: "Geography", location: "Room 110", price: 50, spaces: 3, image: "images/geography.jpg" }
-        ]
+        ],
+        sortAttribute: "subject", // Default sort by subject
+        sortOrder: "ascending" // Default order
+    },
+    computed: {
+        sortedLessons() {
+            return this.lessons.slice().sort((a, b) => {
+                let modifier = this.sortOrder === "ascending" ? 1 : -1;
+                if (this.sortAttribute === "price" || this.sortAttribute === "spaces") {
+                    // Sort by numerical values
+                    return (a[this.sortAttribute] - b[this.sortAttribute]) * modifier;
+                } else {
+                    // Sort by string values (subject and location)
+                    let aValue = a[this.sortAttribute].toLowerCase();
+                    let bValue = b[this.sortAttribute].toLowerCase();
+                    return aValue < bValue ? -1 * modifier : aValue > bValue ? 1 * modifier : 0;
+                }
+            });
+        }
     },
     methods: {
         bookSpace(lesson) {

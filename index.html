@@ -19,7 +19,25 @@
         </header>
 
         <main>
-            <div class="lesson" v-for="lesson in lessons" :key="lesson.id">
+            <!-- Sorting controls -->
+            <div class="sorting-controls">
+                <label for="sort-by">Sort by:</label>
+                <select v-model="sortAttribute">
+                    <option value="subject">Subject</option>
+                    <option value="location">Location</option>
+                    <option value="price">Price</option>
+                    <option value="spaces">Availability</option>
+                </select>
+
+                <label for="sort-order">Order:</label>
+                <select v-model="sortOrder">
+                    <option value="ascending">Ascending</option>
+                    <option value="descending">Descending</option>
+                </select>
+            </div>
+
+            <!-- Lesson cards -->
+            <div class="lesson" v-for="lesson in sortedLessons" :key="lesson.id">
                 <h2>{{ lesson.subject }}</h2>
                 <img :src="lesson.image" :alt="lesson.subject">
                 <p>Location: {{ lesson.location }}</p>
@@ -30,6 +48,7 @@
             </div>
         </main>
     </div>
+
 </body>
 
 </html>
