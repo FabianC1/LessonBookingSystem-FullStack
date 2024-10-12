@@ -56,3 +56,36 @@ button:hover {
     font-weight: bold;
     text-decoration: underline;
 }
+
+/* Sorting controls styling */
+.sorting-controls {
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.sorting-controls label {
+    color: white;
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+.sorting-controls select {
+    padding: 8px;
+    margin: 0 10px;
+    border: 2px solid #333;
+    border-radius: 5px;
+    background-color: #f0f0f0;
+    font-size: 1em;
+    cursor: pointer;
+}
+
+.sorting-controls select:focus {
+    outline: none;
+    border-color: #4CAF50;
+}
+
+.sorting-controls select:hover {
+    background-color: #e0e0e0;
+}

@@ -43,6 +43,7 @@
                 <p>Location: {{ lesson.location }}</p>
                 <p>Price: ${{ lesson.price }}</p>
                 <p>Spaces: {{ lesson.spaces }} / 5</p>
+                <p>Duration: {{ lesson.duration }} hours</p>
                 <button v-if="lesson.spaces > 0" @click="bookSpace(lesson)">Book Now</button>
                 <p v-else class="full">This class is full</p>
             </div>
