@@ -101,14 +101,35 @@
                 </div>
                 <div v-else>
                     <ul>
-                        <li v-for="item in cart" :key="item.id">
-                            {{ item.subject }} - ${{ item.price }}
-                            <button @click="removeFromCart(item)">Remove</button>
+                        <li v-for="item in cart" :key="item.id" class="cart-item">
+                            <span class="item-details">
+                                {{ item.subject }} - ${{ item.price }}
+                                <span class="separator">|</span>
+                                <span class="item-location">Location: {{ getLessonLocation(item.lessonId) }}</span>
+                            </span>
+                            <button @click="removeFromCart(item)" class="remove-button">Remove</button>
                         </li>
-                        
+
+
                     </ul>
+
+                    <p>Total Price: ${{ cartTotal }}</p>
+
+                    <div class="checkout-section">
+                        <h3>Checkout</h3>
+                        <label for="name">Name:</label>
+                        <input type="text" v-model="name" placeholder="Enter your name" />
+
+                        <label for="phone">Phone:</label>
+                        <input type="text" v-model="phone" placeholder="Enter your phone number" />
+
+                        <button @click="checkout" :disabled="!isCheckoutEnabled">Checkout</button>
+                        <p v-if="checkoutMessage">{{ checkoutMessage }}</p>
+                    </div>
                 </div>
             </div>
+
+
 
         </main>
     </div>

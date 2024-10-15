@@ -24,11 +24,17 @@ let app = new Vue({
         cart: [],
         cartVisible: false,
         showLessonPage: true,
+        name: '',
+        phone: '',
+        checkoutMessage: ''
     },
     computed: {
-
         isCartDisabled() {
             return this.cart.length === 0 && this.showLessonPage;
+        },
+
+        cartTotal() {
+            return this.cart.reduce((total, item) => total + item.price, 0);
         },
 
         filteredLessons() {
@@ -55,8 +61,19 @@ let app = new Vue({
                     return aValue < bValue ? -1 * modifier : aValue > bValue ? 1 * modifier : 0;
                 }
             });
+        },
+
+        isCheckoutEnabled() {
+            return this.isValidName && this.isValidPhone;
+        },
+        isValidName() {
+            return /^[A-Za-z\s]+$/.test(this.name); // Validates that the name contains letters only
+        },
+        isValidPhone() {
+            return /^[0-9]+$/.test(this.phone); // Validates that the phone contains numbers only
         }
     },
+
     methods: {
         toggleCart() {
             this.showLessonPage = !this.showLessonPage; // Toggle the page
@@ -64,17 +81,15 @@ let app = new Vue({
 
         bookSpace(lesson) {
             if (lesson.spaces > 0) {
-                
                 this.cart.push({
-                    id: `${lesson.id}-${Date.now()}`, 
+                    id: `${lesson.id}-${Date.now()}`,
                     subject: lesson.subject,
                     price: lesson.price,
-                    lessonId: lesson.id 
+                    lessonId: lesson.id
                 });
-                lesson.spaces--; 
+                lesson.spaces--;
             }
         },
-        
 
         removeFromCart(itemToRemove) {
             const lesson = this.lessons.find(lesson => lesson.id === itemToRemove.lessonId);
@@ -82,9 +97,8 @@ let app = new Vue({
                 lesson.spaces++; // Increase the number of spaces in the original lesson
             }
             this.cart = this.cart.filter(item => item.id !== itemToRemove.id); // Remove the specific item with IDs
-        }
-        ,
-        
+        },
+
         validatePrices() {
             // Ensuring minPrice and maxPrice are not below 0
             if (this.minPrice < 0) {
@@ -109,6 +123,21 @@ let app = new Vue({
             this.maxPrice = null;
             this.excludeFull = false; // Reset checkbox
             this.priceError = null; // Clear error message
-        }
+        },
+
+        checkout() {
+            this.checkoutMessage = "Order has been submitted!";
+            this.resetCheckoutFields(); // Optional: reset fields after checkout
+        },
+
+        resetCheckoutFields() {
+            this.name = '';
+            this.phone = '';
+        },
+        
+        getLessonLocation(lessonId) {
+            const lesson = this.lessons.find(lesson => lesson.id === lessonId);
+            return lesson ? lesson.location : "Unknown Location"; // Fallback in case lesson is not found
+        },
     }
 });
