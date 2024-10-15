@@ -26,6 +26,11 @@ let app = new Vue({
         showLessonPage: true,
     },
     computed: {
+
+        isCartDisabled() {
+            return this.cart.length === 0 && this.showLessonPage;
+        },
+
         filteredLessons() {
             return this.lessons.filter(lesson => {
                 let priceValid = true;
@@ -59,15 +64,27 @@ let app = new Vue({
 
         bookSpace(lesson) {
             if (lesson.spaces > 0) {
-                lesson.spaces--;
-                this.cart.push(lesson); // Add lesson to the cart
+                
+                this.cart.push({
+                    id: `${lesson.id}-${Date.now()}`, 
+                    subject: lesson.subject,
+                    price: lesson.price,
+                    lessonId: lesson.id 
+                });
+                lesson.spaces--; 
             }
         },
+        
 
-        removeFromCart(lesson) {
-            this.cart = this.cart.filter(item => item.id !== lesson.id);
-            lesson.spaces++; // Restore space count in lessons
-        },
+        removeFromCart(itemToRemove) {
+            const lesson = this.lessons.find(lesson => lesson.id === itemToRemove.lessonId);
+            if (lesson) {
+                lesson.spaces++; // Increase the number of spaces in the original lesson
+            }
+            this.cart = this.cart.filter(item => item.id !== itemToRemove.id); // Remove the specific item with IDs
+        }
+        ,
+        
         validatePrices() {
             // Ensuring minPrice and maxPrice are not below 0
             if (this.minPrice < 0) {

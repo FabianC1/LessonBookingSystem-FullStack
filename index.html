@@ -17,7 +17,7 @@
         <header>
             <img src="images/icon.png" alt="Icon" class="header-icon">
             <h1>{{ sitename }}</h1>
-            <button class="cart-button" @click="toggleCart" :disabled="cart.length === 0">
+            <button class="cart-button" @click="toggleCart" :disabled="isCartDisabled">
                 Cart ({{ cart.length }})
             </button>
         </header>
@@ -94,9 +94,9 @@
             </div>
 
             <!-- Cart Page -->
-            <div v-else>
+            <div v-else class="cart-container">
                 <h2>Your Cart</h2>
-                <div v-if="cart.length === 0">
+                <div v-if="cart.length === 0" class="cart-empty">
                     <p>Your cart is empty.</p>
                 </div>
                 <div v-else>
@@ -105,9 +105,11 @@
                             {{ item.subject }} - ${{ item.price }}
                             <button @click="removeFromCart(item)">Remove</button>
                         </li>
+                        
                     </ul>
                 </div>
             </div>
+
         </main>
     </div>
 

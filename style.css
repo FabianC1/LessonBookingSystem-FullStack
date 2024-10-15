@@ -206,3 +206,65 @@ label[for="exclude-full"] {
     display: flex; 
     gap: 25px; 
 }
+
+
+
+
+/* Cart Page Styling */
+.cart-container {
+    width: 60%; /* Control the width of the cart container */
+    margin: 40px auto; /* Center the cart container horizontally */
+    background-color: #ffffff5d; /* Background color */
+    padding: 20px; /* Padding around the container */
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Add shadow */
+    text-align: center; /* Center the text in the container */
+}
+
+.cart-container h2 {
+    font-size: 28px; /* Make the Cart header larger */
+    color: #000000; /* Dark text color */
+    margin-bottom: 20px; /* Space below the header */
+    font-family: 'Arial', sans-serif; /* Set the font */
+}
+
+.cart-container ul {
+    list-style: none; /* Remove bullet points from the list */
+    padding: 0;
+}
+
+.cart-container li {
+    font-size: 18px; /* Control font size for items in the cart */
+    padding: 10px 0; /* Space between cart items */
+    display: flex;
+    justify-content: space-between; /* Distribute item and button */
+    align-items: center; /* Center the button vertically with the text */
+    border-bottom: 1px solid #ccc; /* Add a border between items */
+}
+
+.cart-container li:last-child {
+    border-bottom: none; /* Remove border for the last item */
+}
+
+.cart-container button {
+    background-color: #FF5733; /* Button background color */
+    color: #ffffff; /* Button text color */
+    border: none; /* Remove border */
+    padding: 5px 10px; /* Padding inside the button */
+    border-radius: 5px; /* Rounded button corners */
+    cursor: pointer;
+    transition: background-color 0.3s ease; /* Smooth hover effect */
+}
+
+.cart-container button:hover {
+    background-color: #C70039; /* Darker red on hover */
+}
+
+/* Empty Cart Styling */
+.cart-empty {
+    font-size: 20px; /* Make the empty cart text larger */
+    color: #666666; /* Grey color for empty cart message */
+    font-style: italic; /* Italic style for emphasis */
+    padding: 30px; /* Add padding around empty message */
+}
+
