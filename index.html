@@ -17,6 +17,9 @@
         <header>
             <img src="images/icon.png" alt="Icon" class="header-icon">
             <h1>{{ sitename }}</h1>
+            <button class="cart-button" @click="toggleCart" :disabled="cart.length === 0">
+                Cart ({{ cart.length }})
+            </button>
         </header>
 
         <main>

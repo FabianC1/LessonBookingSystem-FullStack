@@ -21,6 +21,8 @@ let app = new Vue({
         excludeFull: false,
         priceError: null,
         searchQuery: "",
+        cart: [],
+        cartVisible: false
     },
     computed: {
         filteredLessons() {
@@ -53,7 +55,17 @@ let app = new Vue({
         bookSpace(lesson) {
             if (lesson.spaces > 0) {
                 lesson.spaces--;
+                this.cart.push(lesson); // Add lesson to the cart
             }
+        },
+        removeFromCart(lesson) {
+            this.cart = this.cart.filter(item => item.id !== lesson.id);
+            lesson.spaces++; // Restore space count in lessons
+        },
+        toggleCart() {
+            // Implement logic to toggle the visibility of the cart modal
+            // This could be a variable that controls the modal's visibility
+            this.cartVisible = !this.cartVisible; // Example
         },
         validatePrices() {
             // Ensuring minPrice and maxPrice are not below 0
@@ -63,7 +75,7 @@ let app = new Vue({
             if (this.maxPrice < 0) {
                 this.maxPrice = 0;
             }
-            
+
             // Checking for Min Price greater than Max Price
             if (this.minPrice !== null && this.maxPrice !== null && this.minPrice > this.maxPrice) {
                 this.priceError = "Min Price cannot be greater than Max Price.";
