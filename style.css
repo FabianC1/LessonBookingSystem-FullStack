@@ -322,23 +322,53 @@ label[for="exclude-full"] {
 
 .cart-item {
     display: flex;
-    justify-content: space-between; /* Distribute space between items */
-    align-items: center; /* Vertically center the items */
-    padding: 10px 0; /* Add some vertical padding */
-    border-bottom: 1px solid #ddd; /* Optional: Add a bottom border for separation */
+    justify-content: space-between;
+    /* Distribute space between items */
+    align-items: center;
+    /* Vertically center the items */
+    padding: 10px 0;
+    /* Add some vertical padding */
+    border-bottom: 1px solid #ddd;
+    /* Optional: Add a bottom border for separation */
 }
 
 .item-details {
     display: flex;
-    align-items: center; /* Vertically center text */
+    align-items: center;
+    /* Vertically center text */
 }
 
 .item-location {
-    margin-left: 10px; /* Add space between subject/price and location */
-    font-style: italic; /* Optional: Make location text italic */
+    margin-left: 10px;
+    /* Add space between subject/price and location */
+    font-style: italic;
+    /* Optional: Make location text italic */
 }
 
 .separator {
-    margin: 0 30px; /* Add horizontal spacing around the separator */
-    color: #000000; /* Optional: Change color for visibility */
+    margin: 0 30px;
+    /* Add horizontal spacing around the separator */
+    color: #000000;
+    /* Optional: Change color for visibility */
+}
+
+input {
+    margin-right: 10px;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.checkout-button {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 4px;
+    background-color: #007BFF;
+    color: white;
+    cursor: pointer;
+}
+
+.checkout-button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
 }

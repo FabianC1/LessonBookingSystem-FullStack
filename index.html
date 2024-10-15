@@ -61,9 +61,7 @@
                         <button @click="applyChanges">Apply Changes</button>
                         <button @click="resetChanges">Reset Changes</button>
                     </div>
-
                 </div>
-
 
                 <!-- Search Section -->
                 <div class="search-section">
@@ -74,7 +72,6 @@
 
                 <p v-if="priceError" style="color: red;">{{ priceError }}</p>
             </div>
-
 
             <!-- Lesson Booking Page -->
             <div v-if="showLessonPage">
@@ -109,31 +106,24 @@
                             </span>
                             <button @click="removeFromCart(item)" class="remove-button">Remove</button>
                         </li>
-
-
                     </ul>
 
                     <p>Total Price: ${{ cartTotal }}</p>
 
                     <div class="checkout-section">
-                        <h3>Checkout</h3>
-                        <label for="name">Name:</label>
                         <input type="text" v-model="name" placeholder="Enter your name" />
-
-                        <label for="phone">Phone:</label>
                         <input type="text" v-model="phone" placeholder="Enter your phone number" />
-
-                        <button @click="checkout" :disabled="!isCheckoutEnabled">Checkout</button>
-                        <p v-if="checkoutMessage">{{ checkoutMessage }}</p>
+                        <button :disabled="!checkoutEnabled" @click="submitOrder" class="checkout-button">
+                            Checkout
+                        </button>
                     </div>
+
+                    <!-- Display checkout message -->
+                    <p v-if="checkoutMessage" class="checkout-message">{{ checkoutMessage }}</p>
                 </div>
             </div>
-
-
-
         </main>
     </div>
-
 </body>
 
 </html>

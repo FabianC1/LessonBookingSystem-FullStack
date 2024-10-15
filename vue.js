@@ -26,7 +26,7 @@ let app = new Vue({
         showLessonPage: true,
         name: '',
         phone: '',
-        checkoutMessage: ''
+        checkoutMessage: '',
     },
     computed: {
         isCartDisabled() {
@@ -63,14 +63,10 @@ let app = new Vue({
             });
         },
 
-        isCheckoutEnabled() {
-            return this.isValidName && this.isValidPhone;
-        },
-        isValidName() {
-            return /^[A-Za-z\s]+$/.test(this.name); // Validates that the name contains letters only
-        },
-        isValidPhone() {
-            return /^[0-9]+$/.test(this.phone); // Validates that the phone contains numbers only
+        checkoutEnabled() {
+            const nameRegex = /^[A-Za-z\s]+$/; // Allow only letters and spaces
+            const phoneRegex = /^[0-9]+$/; // Allow only numbers
+            return nameRegex.test(this.name) && phoneRegex.test(this.phone);
         }
     },
 
@@ -115,9 +111,11 @@ let app = new Vue({
                 this.priceError = null; // Clear error if validation passes
             }
         },
+
         applyChanges() {
             this.validatePrices(); // Call validation on apply
         },
+
         resetChanges() {
             this.minPrice = null; // Reset prices
             this.maxPrice = null;
@@ -125,16 +123,14 @@ let app = new Vue({
             this.priceError = null; // Clear error message
         },
 
-        checkout() {
-            this.checkoutMessage = "Order has been submitted!";
-            this.resetCheckoutFields(); // Optional: reset fields after checkout
+        submitOrder() {
+            if (this.checkoutEnabled) {
+                this.checkoutMessage = `Order has been submitted for ${this.name} with phone number ${this.phone}.`;
+                this.name = ''; // Reset the name field
+                this.phone = ''; // Reset the phone field
+            }
         },
 
-        resetCheckoutFields() {
-            this.name = '';
-            this.phone = '';
-        },
-        
         getLessonLocation(lessonId) {
             const lesson = this.lessons.find(lesson => lesson.id === lessonId);
             return lesson ? lesson.location : "Unknown Location"; // Fallback in case lesson is not found
