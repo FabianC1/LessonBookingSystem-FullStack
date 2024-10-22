@@ -1,11 +1,11 @@
 {
   "name": "static-file-fun",
-  "private":true,
+  "private": true,
   "scripts": {
     "start": "node app.js"
   },
-  
   "dependencies": {
-    "express": "^4.21.1"
+    "express": "^4.21.1",
+    "mustache": "^4.2.0"
   }
 }
