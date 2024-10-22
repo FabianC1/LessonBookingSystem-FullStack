@@ -6,8 +6,8 @@ var fs = require("fs");
 
 var app = express();
 
-
-app.use(express.static('Static'));
+var staticPath = path.join(__dirname, "Static");
+app.use(express.static(staticPath));
 
 
 app.use(function (req, res) {
