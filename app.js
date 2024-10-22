@@ -10,6 +10,8 @@ var app = express();
 app.use(express.static('Static'));
 
 
+
+
 app.use(function (req, res) {
    res.status(404);
    res.send("File not found!");
