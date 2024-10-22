@@ -7,7 +7,6 @@ var app = express();
 
 
 
-
 app.use(express.static('Static'));
 
 
