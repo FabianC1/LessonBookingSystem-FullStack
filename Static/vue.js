@@ -2,18 +2,7 @@ let app = new Vue({
     el: "#app",
     data: {
         sitename: "Book your lesson",
-        lessons: [
-            { id: 1, subject: "Math", location: "Room 101", price: 50, spaces: 3, image: "images/maths.png", duration: 2 },
-            { id: 2, subject: "Science", location: "Room 102", price: 60, spaces: 5, image: "images/science.jpg", duration: 1.5 },
-            { id: 3, subject: "History", location: "Room 103", price: 40, spaces: 2, image: "images/history.jpeg", duration: 1 },
-            { id: 4, subject: "English", location: "Room 104", price: 45, spaces: 0, image: "images/english.png", duration: 2 },
-            { id: 5, subject: "Art", location: "Room 105", price: 55, spaces: 4, image: "images/art.jpg", duration: 2.5 },
-            { id: 6, subject: "Music", location: "Room 106", price: 70, spaces: 1, image: "images/music.png", duration: 1.5 },
-            { id: 7, subject: "Physics", location: "Room 107", price: 65, spaces: 5, image: "images/physics.png", duration: 2 },
-            { id: 8, subject: "Chemistry", location: "Room 108", price: 50, spaces: 0, image: "images/chemistry.jpeg", duration: 1.5 },
-            { id: 9, subject: "Biology", location: "Room 109", price: 60, spaces: 2, image: "images/biology.png", duration: 1 },
-            { id: 10, subject: "Geography", location: "Room 110", price: 50, spaces: 3, image: "images/geography.jpg", duration: 2 }
-        ],
+        lessons: [], // Initialize as an empty array
         sortAttribute: "subject", // Default sort by subject
         sortOrder: "ascending", // Default order
         minPrice: null,
@@ -27,6 +16,15 @@ let app = new Vue({
         name: '',
         phone: '',
         checkoutMessage: '',
+    },
+    created() {
+        // Fetch lessons from the server
+        fetch("http://localhost:3000/lessons")
+            .then(response => response.json())
+            .then(data => {
+                this.lessons = data; // Populate lessons with fetched data
+            })
+            .catch(error => console.error("Error fetching lessons:", error));
     },
     computed: {
         isCartDisabled() {
@@ -128,6 +126,7 @@ let app = new Vue({
                 this.checkoutMessage = `Order has been submitted for ${this.name} with phone number ${this.phone}.`;
                 this.name = ''; // Reset the name field
                 this.phone = ''; // Reset the phone field
+                this.cart = []; // Clear the cart after checkout
             }
         },
 
