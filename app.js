@@ -34,7 +34,6 @@ app.param('collectionName'
 
 app.get('/collections/:collectionName'
    , function (req, res, next) {
-      console.log("error with loading")
       req.collection.find({}).toArray(function (err, results) {
          if (err) {
             return next(err);
