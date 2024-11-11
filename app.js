@@ -5,7 +5,7 @@ var fs = require("fs");
 const cors = require("cors");
 
 var app = express();
-testing github clone
+
 
 let propertiesReader = require("properties-reader");
 let propertiesPath = path.resolve(__dirname, "conf/db.properties");
