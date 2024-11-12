@@ -61,6 +61,24 @@ app.param('collectionName'
       return next();
    });
 
+
+   app.get('/collections/:collectionName', async (req, res, next) => {
+      const { collectionName } = req.params;  // Get the collection name from the URL
+      try {
+          const collection = db.collection(collectionName); // Dynamically access the collection
+          const results = await collection.find().toArray(); // Fetch data from the collection
+          res.json(results); // Send the results as JSON
+      } catch (error) {
+          next(error);  // Handle any errors
+      }
+  });
+  
+  
+  
+
+
+
+
 app.get('/collections/:collectionName'
    , function (req, res, next) {
       req.collection.find({}).toArray(function (err, results) {

@@ -76,6 +76,7 @@
             <!-- Lesson Booking Page -->
             <div v-if="showLessonPage">
                 <div class="lesson-container">
+                    <!-- Loop through filtered lessons and display each one -->
                     <div class="lesson" v-for="lesson in filteredLessons" :key="lesson.id">
                         <h2>{{ lesson.subject }}</h2>
                         <img :src="lesson.image" :alt="lesson.subject">
@@ -89,6 +90,7 @@
                     </div>
                 </div>
             </div>
+
 
             <!-- Cart Page -->
             <div v-else class="cart-container">
