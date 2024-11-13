@@ -128,32 +128,66 @@ app.get('/collections/:collectionName/:id', async function (req, res, next) {
 
 
 
-app.post('/collections/:collectionName'
-   , function (req, res, next) {
-      // TODO: Validate req.body
-      req.collection.insertOne(req.body, function (err, results) {
+app.put('/collections/:collectionName/:id', function (req, res, next) {
+   // Extract the spaces value from the request body
+   const { spaces } = req.body;
+
+   // Validate that spaces is a valid number
+   if (typeof spaces !== 'number' || spaces < 0) {
+      return res.status(400).json({ msg: "Invalid spaces value" });
+   }
+
+   // Update the lesson with the new spaces value
+   req.collection.updateOne(
+      { _id: new ObjectId(req.params.id) }, // Find the lesson by _id
+      { $set: { spaces: spaces } }, // Update the spaces field
+      { safe: true, multi: false }, // Ensure safe update and only one document
+      function (err, result) {
          if (err) {
-            return next(err);
+            return next(err); // Handle any errors
+         } else {
+            // Return success message if a lesson was found and updated
+            res.send((result.matchedCount === 1) ? { msg: "success" } : { msg: "error" });
          }
-         res.send(results);
-      });
-   });
+      }
+   );
+});
 
 
-app.put('/collections/:collectionName/:id'
-   , function (req, res, next) {
-      // TODO: Validate req.body
-      req.collection.updateOne({ _id: new ObjectId(req.params.id) },
-         { $set: req.body },
-         { safe: true, multi: false }, function (err, result) {
-            if (err) {
-               return next(err);
-            } else {
-               res.send((result.matchedCount === 1) ? { msg: "success" } : { msg: "error" });
-            }
-         }
+
+// PUT route to update spaces
+app.put('/lessons/:id', async (req, res) => {
+   const { id } = req.params;
+   const { spaces } = req.body; // Expecting new spaces count in the request body
+
+   // Check if spaces is a valid number
+   if (typeof spaces !== 'number' || spaces < 0) {
+      return res.status(400).json({ message: 'Invalid spaces value' });
+   }
+
+   try {
+      // Check if the lesson exists before updating
+      const lesson = await db.collection('lessons').findOne({ _id: new ObjectId(id) });
+      if (!lesson) {
+         return res.status(404).json({ message: 'Lesson not found' });
+      }
+
+      // Perform the update
+      const result = await db.collection('lessons').updateOne(
+         { _id: new ObjectId(id) },
+         { $set: { spaces } }
       );
-   });
+
+      if (result.modifiedCount > 0) {
+         res.status(200).json({ message: 'Lesson spaces updated successfully' });
+      } else {
+         res.status(404).json({ message: 'Lesson not found' });
+      }
+   } catch (error) {
+      console.error('Error updating lesson:', error);
+      res.status(500).json({ message: 'Server error' });
+   }
+});
 
 
 
