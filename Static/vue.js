@@ -131,7 +131,7 @@ let app = new Vue({
                     const lesson = this.lessons.find(lesson => lesson.id === item.lessonId); // Ensure you use the correct property name for MongoDB _id
         
                     if (lesson) {
-                        const updatedSpaces = lesson.spaces - 1; // Reduce spaces by 1
+                        const updatedSpaces = lesson.spaces; // Reduce spaces by 1
         
                         // Ensure lesson._id is a valid MongoDB ObjectId (should be a 24-character hex string)
                         fetch(`http://localhost:3000/collections/products/${lesson._id}`, { // Use _id, not id
