@@ -76,17 +76,34 @@ let app = new Vue({
 
         bookSpace(lesson) {
             if (lesson.spaces > 0) {
-               this.cart.push({
-                  id: `${lesson.id}-${Date.now()}`,
-                  subject: lesson.subject,
-                  price: lesson.price,
-                  lessonId: lesson.id
-               });
-               lesson.spaces--; // Decrease available spaces
+                this.cart.push({
+                    id: `${lesson.id}-${Date.now()}`,
+                    subject: lesson.subject,
+                    price: lesson.price,
+                    lessonId: lesson.id
+                });
+                
+                lesson.spaces--; // Decrease available spaces locally
+                // Update the spaces on the backend immediately to reflect the change
+                fetch(`http://localhost:3000/collections/products/${lesson._id}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ spaces: lesson.spaces }), // Update spaces to the new value
+                })
+                .then(response => response.json())
+                .then(updatedLesson => {
+                    console.log("Lesson updated:", updatedLesson);
+                })
+                .catch(error => {
+                    console.error("Error updating lesson:", error);
+                });
             } else {
-               alert("This lesson is full!");
+                alert("This lesson is full!");
             }
-         }
+        }
+        
          ,
 
         removeFromCart(itemToRemove) {
@@ -127,14 +144,28 @@ let app = new Vue({
 
         submitOrder() {
             if (this.checkoutEnabled && this.cart.length > 0) {
+                // Collect order details
+                const orderData = {
+                    name: this.name,
+                    phone: this.phone,
+                    lessons: this.cart.map(item => ({
+                        lessonId: item.lessonId,
+                        price: item.price,
+                        spaces: 1, // Each item in the cart represents one space being booked
+                    })),
+                };
+        
+                // Upload the order first
+                this.uploadOrder(orderData);
+        
+                // Update lesson spaces after submitting the order
                 this.cart.forEach(item => {
-                    const lesson = this.lessons.find(lesson => lesson.id === item.lessonId); // Ensure you use the correct property name for MongoDB _id
+                    const lesson = this.lessons.find(lesson => lesson.id === item.lessonId);
+                    if (lesson && lesson.spaces > 0) {
+                        const updatedSpaces = lesson.spaces;
         
-                    if (lesson) {
-                        const updatedSpaces = lesson.spaces; // Reduce spaces by 1
-        
-                        // Ensure lesson._id is a valid MongoDB ObjectId (should be a 24-character hex string)
-                        fetch(`http://localhost:3000/collections/products/${lesson._id}`, { // Use _id, not id
+                        // Update the lesson availability in the database
+                        fetch(`http://localhost:3000/collections/products/${lesson._id}`, {
                             method: 'PUT',
                             headers: {
                                 'Content-Type': 'application/json',
@@ -151,6 +182,7 @@ let app = new Vue({
                     }
                 });
         
+                // Show a confirmation message and reset the form
                 this.checkoutMessage = `Order has been submitted for ${this.name} with phone number ${this.phone}.`;
                 this.name = '';
                 this.phone = '';
@@ -159,6 +191,30 @@ let app = new Vue({
                 alert("Please fill in all fields and ensure you have items in your cart.");
             }
         },
+        
+
+        uploadOrder(orderData) {
+            // Submit the order to the backend (to create a new order in the database)
+            fetch('http://localhost:3000/collections/Orders', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(orderData),
+            })
+            .then(response => response.json())
+            .then(result => {
+                if (result && result._id) { // Ensure order was successfully created
+                    console.log("Order successfully created:", result);
+                } else {
+                    console.error('Error submitting order:', result.error);
+                }
+            })
+            .catch(error => {
+                console.error('Error with order submission:', error);
+            });
+        },
+        
 
         getLessonLocation(lessonId) {
             const lesson = this.lessons.find(lesson => lesson.id === lessonId);
