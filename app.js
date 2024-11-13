@@ -62,19 +62,19 @@ app.param('collectionName'
    });
 
 
-   app.get('/collections/:collectionName', async (req, res, next) => {
-      const { collectionName } = req.params;  // Get the collection name from the URL
-      try {
-          const collection = db.collection(collectionName); // Dynamically access the collection
-          const results = await collection.find().toArray(); // Fetch data from the collection
-          res.json(results); // Send the results as JSON
-      } catch (error) {
-          next(error);  // Handle any errors
-      }
-  });
-  
-  
-  
+app.get('/collections/:collectionName', async (req, res, next) => {
+   const { collectionName } = req.params;  // Get the collection name from the URL
+   try {
+      const collection = db.collection(collectionName); // Dynamically access the collection
+      const results = await collection.find().toArray(); // Fetch data from the collection
+      res.json(results); // Send the results as JSON
+   } catch (error) {
+      next(error);  // Handle any errors
+   }
+});
+
+
+
 
 
 
@@ -137,6 +137,22 @@ app.post('/collections/:collectionName'
          }
          res.send(results);
       });
+   });
+
+
+app.put('/collections/:collectionName/:id'
+   , function (req, res, next) {
+      // TODO: Validate req.body
+      req.collection.updateOne({ _id: new ObjectId(req.params.id) },
+         { $set: req.body },
+         { safe: true, multi: false }, function (err, result) {
+            if (err) {
+               return next(err);
+            } else {
+               res.send((result.matchedCount === 1) ? { msg: "success" } : { msg: "error" });
+            }
+         }
+      );
    });
 
 
