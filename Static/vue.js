@@ -18,15 +18,15 @@ let app = new Vue({
         checkoutMessage: '',
     },
     created() {
-        const collectionName = "products";  // This can be dynamic if needed
-
+        const collectionName = "products";  // Replace with your collection name, e.g., "lessons"
+     
         fetch(`http://localhost:3000/collections/${collectionName}`)
             .then(response => response.json())
             .then(data => {
-                this.lessons = data; // Populate the data (adjust the name if you use products)
+                this.lessons = data;  // Populate the data (adjust the name if you use "lessons")
             })
             .catch(error => console.error("Error fetching data:", error));
-    },
+     },
     computed: {
         isCartDisabled() {
             return this.cart.length === 0 && this.showLessonPage;

@@ -75,21 +75,6 @@ app.get('/collections/:collectionName', async (req, res, next) => {
 
 
 
-
-
-
-
-app.get('/collections/:collectionName'
-   , function (req, res, next) {
-      req.collection.find({}).toArray(function (err, results) {
-         if (err) {
-            return next(err);
-         }
-         res.send(results);
-      });
-   });
-
-
 app.get('/collections/:collectionName/subject/:subject', async function (req, res, next) {
    try {
       const subject = req.params.subject;
