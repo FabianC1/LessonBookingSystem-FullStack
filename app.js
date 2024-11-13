@@ -160,6 +160,7 @@ app.post('/collections/:collectionName', async function (req, res, next) {
    // Now that all lesson IDs are validated, create the validLessons array
    const validLessons = lessons.map(lesson => ({
       lessonId: new ObjectId(lesson.lessonId), // Convert to ObjectId if valid
+      subject: lesson.subject, // Include subject here
       spaces: lesson.spaces // spaces purchased for the lesson
    }));
 
