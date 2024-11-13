@@ -140,39 +140,54 @@ app.put('/collections/:collectionName/:id', function (req, res, next) {
 
 
 
-// PUT route to update spaces
-app.put('/lessons/:id', async (req, res) => {
-   const { id } = req.params;
-   const { spaces } = req.body; // Expecting new spaces count in the request body
+app.post('/collections/:collectionName', async function (req, res, next) {
+   const { collectionName } = req.params;  // Get the collection name from the URL
+   const { name, phone, lessons } = req.body;
 
-   // Check if spaces is a valid number
-   if (typeof spaces !== 'number' || spaces < 0) {
-      return res.status(400).json({ message: 'Invalid spaces value' });
+   // Validation: Ensure that 'name', 'phone', and 'lessons' are provided in the request
+   if (!name || !phone || !Array.isArray(lessons) || lessons.length === 0) {
+      return res.status(400).json({ error: 'Name, phone, and lessons are required' });
    }
 
+   // Validate lesson IDs
+   for (const lesson of lessons) {
+      if (!ObjectId.isValid(lesson.lessonId)) {
+         // Return the error response immediately if lessonId is invalid
+         return res.status(400).json({ error: `Invalid lessonId: ${lesson.lessonId}` });
+      }
+   }
+
+   // Now that all lesson IDs are validated, create the validLessons array
+   const validLessons = lessons.map(lesson => ({
+      lessonId: new ObjectId(lesson.lessonId), // Convert to ObjectId if valid
+      spaces: lesson.spaces // spaces purchased for the lesson
+   }));
+
+   // Create the new order object
+   const newOrder = {
+      name: name,
+      phone: phone,
+      lessons: validLessons,
+      createdAt: new Date() // timestamp for order creation
+   };
+   
    try {
-      // Check if the lesson exists before updating
-      const lesson = await db.collection('lessons').findOne({ _id: new ObjectId(id) });
-      if (!lesson) {
-         return res.status(404).json({ message: 'Lesson not found' });
-      }
-
-      // Perform the update
-      const result = await db.collection('lessons').updateOne(
-         { _id: new ObjectId(id) },
-         { $set: { spaces } }
-      );
-
-      if (result.modifiedCount > 0) {
-         res.status(200).json({ message: 'Lesson spaces updated successfully' });
-      } else {
-         res.status(404).json({ message: 'Lesson not found' });
-      }
+      // Dynamically access the collection specified by the URL parameter
+      const collection = db.collection(collectionName);  // 'Orders' collection if the URL is /collections/Orders
+   
+      // Insert the new order into the "Orders" collection
+      const result = await collection.insertOne(newOrder);
+   
+      // Return a success response with the inserted order ID
+      res.status(201).json({ message: 'Order created successfully', orderId: result.insertedId });
    } catch (error) {
-      console.error('Error updating lesson:', error);
-      res.status(500).json({ message: 'Server error' });
+      console.error(error);
+      next(error);  // Pass the error to the error handler
    }
 });
+
+
+
 
 
 
