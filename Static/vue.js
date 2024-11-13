@@ -151,19 +151,20 @@ let app = new Vue({
                     lessons: this.cart.map(item => ({
                         lessonId: item.lessonId,
                         price: item.price,
-                        spaces: 1, // Each item in the cart represents one space being booked
+                        spaces: 1, // Each item represents one space
+                        subject: item.subject,
                     })),
                 };
-        
+
                 // Upload the order first
                 this.uploadOrder(orderData);
-        
+
                 // Update lesson spaces after submitting the order
                 this.cart.forEach(item => {
                     const lesson = this.lessons.find(lesson => lesson.id === item.lessonId);
                     if (lesson && lesson.spaces > 0) {
-                        const updatedSpaces = lesson.spaces;
-        
+                        const updatedSpaces = lesson.spaces - 1;
+
                         // Update the lesson availability in the database
                         fetch(`http://localhost:3000/collections/products/${lesson._id}`, {
                             method: 'PUT',
@@ -181,16 +182,20 @@ let app = new Vue({
                         });
                     }
                 });
-        
-                // Show a confirmation message and reset the form
+
+                // Show confirmation message and update the flag
                 this.checkoutMessage = `Order has been submitted for ${this.name} with phone number ${this.phone}.`;
+                this.isOrderSubmitted = true; // Set flag to true when order is submitted
+
+                // Clear the cart after checkout
+                this.cart = [];
                 this.name = '';
                 this.phone = '';
-                this.cart = []; // Clear the cart after checkout
             } else {
                 alert("Please fill in all fields and ensure you have items in your cart.");
             }
         },
+
         
 
         uploadOrder(orderData) {

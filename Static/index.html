@@ -92,12 +92,19 @@
             </div>
 
 
+
             <!-- Cart Page -->
             <div v-else class="cart-container">
                 <h2>Your Cart</h2>
-                <div v-if="cart.length === 0" class="cart-empty">
+
+                <!-- Show confirmation message after checkout -->
+                <p v-if="checkoutMessage" class="checkout-message">{{ checkoutMessage }}</p>
+
+                <!-- Show cart is empty if there are no items and no checkout message -->
+                <div v-if="cart.length === 0 && !checkoutMessage" class="cart-empty">
                     <p>Your cart is empty.</p>
                 </div>
+
                 <div v-else>
                     <ul>
                         <li v-for="item in cart" :key="item.id" class="cart-item">
@@ -110,20 +117,23 @@
                         </li>
                     </ul>
 
-                    <p>Total Price: ${{ cartTotal }}</p>
+                    <!-- Hide the total price if cart is empty or after checkout -->
+                    <p v-if="cart.length > 0 && !isOrderSubmitted">Total Price: ${{ cartTotal }}</p>
 
                     <div class="checkout-section">
-                        <input type="text" v-model="name" placeholder="Enter your name" />
-                        <input type="text" v-model="phone" placeholder="Enter your phone number" />
-                        <button :disabled="!checkoutEnabled" @click="submitOrder" class="checkout-button">
-                            Checkout
-                        </button>
+                        <!-- Show checkout form if cart is not empty and order hasn't been submitted -->
+                        <div v-if="!isOrderSubmitted && cart.length > 0">
+                            <input type="text" v-model="name" placeholder="Enter your name" />
+                            <input type="text" v-model="phone" placeholder="Enter your phone number" />
+                            <button :disabled="!checkoutEnabled" @click="submitOrder" class="checkout-button">
+                                Checkout
+                            </button>
+                        </div>
                     </div>
-
-                    <!-- Display checkout message -->
-                    <p v-if="checkoutMessage" class="checkout-message">{{ checkoutMessage }}</p>
                 </div>
             </div>
+
+
         </main>
     </div>
 </body>
