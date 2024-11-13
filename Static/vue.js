@@ -76,15 +76,18 @@ let app = new Vue({
 
         bookSpace(lesson) {
             if (lesson.spaces > 0) {
-                this.cart.push({
-                    id: `${lesson.id}-${Date.now()}`,
-                    subject: lesson.subject,
-                    price: lesson.price,
-                    lessonId: lesson.id
-                });
-                lesson.spaces--;
+               this.cart.push({
+                  id: `${lesson.id}-${Date.now()}`,
+                  subject: lesson.subject,
+                  price: lesson.price,
+                  lessonId: lesson.id
+               });
+               lesson.spaces--; // Decrease available spaces
+            } else {
+               alert("This lesson is full!");
             }
-        },
+         }
+         ,
 
         removeFromCart(itemToRemove) {
             const lesson = this.lessons.find(lesson => lesson.id === itemToRemove.lessonId);
@@ -123,11 +126,37 @@ let app = new Vue({
         },
 
         submitOrder() {
-            if (this.checkoutEnabled) {
+            if (this.checkoutEnabled && this.cart.length > 0) {
+                this.cart.forEach(item => {
+                    const lesson = this.lessons.find(lesson => lesson.id === item.lessonId); // Ensure you use the correct property name for MongoDB _id
+        
+                    if (lesson) {
+                        const updatedSpaces = lesson.spaces - 1; // Reduce spaces by 1
+        
+                        // Ensure lesson._id is a valid MongoDB ObjectId (should be a 24-character hex string)
+                        fetch(`http://localhost:3000/collections/products/${lesson._id}`, { // Use _id, not id
+                            method: 'PUT',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({ spaces: updatedSpaces }),
+                        })
+                        .then(response => response.json())
+                        .then(updatedLesson => {
+                            console.log("Lesson updated:", updatedLesson);
+                        })
+                        .catch(error => {
+                            console.error("Error updating lesson:", error);
+                        });
+                    }
+                });
+        
                 this.checkoutMessage = `Order has been submitted for ${this.name} with phone number ${this.phone}.`;
-                this.name = ''; // Reset the name field
-                this.phone = ''; // Reset the phone field
+                this.name = '';
+                this.phone = '';
                 this.cart = []; // Clear the cart after checkout
+            } else {
+                alert("Please fill in all fields and ensure you have items in your cart.");
             }
         },
 
