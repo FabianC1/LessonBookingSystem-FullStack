@@ -17,15 +17,18 @@ let app = new Vue({
         checkoutMessage: '',
     },
     created() {
-        const collectionName = "products";  // Replace with your collection name, e.g., "lessons"
-        fetch(`http://localhost:3000/collections/${collectionName}`)
+        const collectionName = "products";
+        fetch(`http://localhost:3000/collections/${collectionName}`, {
+            method: 'GET'
+        })
             .then(response => response.json())
             .then(data => {
-                this.lessons = data;  // Populate the data (adjust the name if you use "lessons")
-                this.updateLessonsFromCart(); // Ensure lesson spaces are correctly updated based on the cart
+                this.lessons = data;
+                this.updateLessonsFromCart();
             })
             .catch(error => console.error("Error fetching data:", error));
-    },
+    }
+    ,
     computed: {
         isCartDisabled() {
             return this.cart.length === 0 && this.showLessonPage;
@@ -80,7 +83,7 @@ let app = new Vue({
                 this.lessons = [];  // Clear lessons if no search term
             }
         },
-        
+
         toggleCart() {
             this.showLessonPage = !this.showLessonPage; // Toggle the page
         },
