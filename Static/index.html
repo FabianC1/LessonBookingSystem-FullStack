@@ -67,7 +67,7 @@
                 <div class="search-section">
                     <h2>Search</h2>
                     <label for="search">Search:</label>
-                    <input type="text" v-model="searchQuery" placeholder="Search for lessons" />
+                    <input type="text" v-model="searchQuery" @input="handleSearch" placeholder="Search for lessons" />
                 </div>
 
                 <p v-if="priceError" style="color: red;">{{ priceError }}</p>
