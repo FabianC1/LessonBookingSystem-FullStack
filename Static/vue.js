@@ -9,7 +9,6 @@ let app = new Vue({
         maxPrice: null,
         excludeFull: false,
         priceError: null,
-        searchQuery: "",
         cart: [],
         cartVisible: false,
         showLessonPage: true,
@@ -26,7 +25,7 @@ let app = new Vue({
                 this.updateLessonsFromCart(); // Ensure lesson spaces are correctly updated based on the cart
             })
             .catch(error => console.error("Error fetching data:", error));
-    },    
+    },
     computed: {
         isCartDisabled() {
             return this.cart.length === 0 && this.showLessonPage;
@@ -46,10 +45,7 @@ let app = new Vue({
                     priceValid = false;
                 }
 
-                // New search functionality
-                const searchValid = lesson.subject.toLowerCase().includes(this.searchQuery.toLowerCase());
-
-                return priceValid && (!this.excludeFull || lesson.spaces > 0) && searchValid;
+                return priceValid && (!this.excludeFull || lesson.spaces > 0);  // Adjusted to remove search filter
             }).sort((a, b) => {
                 let modifier = this.sortOrder === "ascending" ? 1 : -1;
                 if (this.sortAttribute === "price" || this.sortAttribute === "spaces" || this.sortAttribute === "duration") {
@@ -70,25 +66,10 @@ let app = new Vue({
     },
 
     methods: {
-        handleSearch(event) {
-            const searchTerm = event.target.value.trim();
-            if (searchTerm) {
-                // Send search request to the backend
-                fetch(`/search?q=${searchTerm}`)
-                    .then(response => response.json())
-                    .then(data => {
-                        this.results = data; // Update results from backend response
-                    })
-                    .catch(error => console.error("Search error:", error));
-            } else {
-                this.results = []; // Clear results if no search query
-            }
-        },
-
         toggleCart() {
             this.showLessonPage = !this.showLessonPage; // Toggle the page
         },
-    
+
         bookSpace(lesson) {
             if (lesson.spaces > 0) {
                 this.cart.push({
@@ -97,7 +78,7 @@ let app = new Vue({
                     price: lesson.price,
                     lessonId: lesson.id
                 });
-        
+
                 lesson.spaces--; // Decrease available spaces locally (front-end)
             } else {
                 alert("This lesson is full!");
