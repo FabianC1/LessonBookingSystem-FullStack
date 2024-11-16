@@ -19,14 +19,14 @@ let app = new Vue({
     },
     created() {
         const collectionName = "products";  // Replace with your collection name, e.g., "lessons"
-     
         fetch(`http://localhost:3000/collections/${collectionName}`)
             .then(response => response.json())
             .then(data => {
                 this.lessons = data;  // Populate the data (adjust the name if you use "lessons")
+                this.updateLessonsFromCart(); // Ensure lesson spaces are correctly updated based on the cart
             })
             .catch(error => console.error("Error fetching data:", error));
-     },
+    },    
     computed: {
         isCartDisabled() {
             return this.cart.length === 0 && this.showLessonPage;
@@ -73,7 +73,7 @@ let app = new Vue({
         toggleCart() {
             this.showLessonPage = !this.showLessonPage; // Toggle the page
         },
-
+    
         bookSpace(lesson) {
             if (lesson.spaces > 0) {
                 this.cart.push({
@@ -82,29 +82,12 @@ let app = new Vue({
                     price: lesson.price,
                     lessonId: lesson.id
                 });
-                
-                lesson.spaces--; // Decrease available spaces locally
-                // Update the spaces on the backend immediately to reflect the change
-                fetch(`http://localhost:3000/collections/products/${lesson._id}`, {
-                    method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ spaces: lesson.spaces }), // Update spaces to the new value
-                })
-                .then(response => response.json())
-                .then(updatedLesson => {
-                    console.log("Lesson updated:", updatedLesson);
-                })
-                .catch(error => {
-                    console.error("Error updating lesson:", error);
-                });
+        
+                lesson.spaces--; // Decrease available spaces locally (front-end)
             } else {
                 alert("This lesson is full!");
             }
-        }
-        
-         ,
+        },
 
         removeFromCart(itemToRemove) {
             const lesson = this.lessons.find(lesson => lesson.id === itemToRemove.lessonId);
@@ -163,7 +146,7 @@ let app = new Vue({
                 this.cart.forEach(item => {
                     const lesson = this.lessons.find(lesson => lesson.id === item.lessonId);
                     if (lesson && lesson.spaces > 0) {
-                        const updatedSpaces = lesson.spaces - 1;
+                        const updatedSpaces = lesson.spaces;
 
                         // Update the lesson availability in the database
                         fetch(`http://localhost:3000/collections/products/${lesson._id}`, {
@@ -173,13 +156,13 @@ let app = new Vue({
                             },
                             body: JSON.stringify({ spaces: updatedSpaces }),
                         })
-                        .then(response => response.json())
-                        .then(updatedLesson => {
-                            console.log("Lesson updated:", updatedLesson);
-                        })
-                        .catch(error => {
-                            console.error("Error updating lesson:", error);
-                        });
+                            .then(response => response.json())
+                            .then(updatedLesson => {
+                                console.log("Lesson updated:", updatedLesson);
+                            })
+                            .catch(error => {
+                                console.error("Error updating lesson:", error);
+                            });
                     }
                 });
 
@@ -196,7 +179,6 @@ let app = new Vue({
             }
         },
 
-        
 
         uploadOrder(orderData) {
             // Submit the order to the backend (to create a new order in the database)
@@ -207,19 +189,19 @@ let app = new Vue({
                 },
                 body: JSON.stringify(orderData),
             })
-            .then(response => response.json())
-            .then(result => {
-                if (result && result._id) { // Ensure order was successfully created
-                    console.log("Order successfully created:", result);
-                } else {
-                    console.error('Error submitting order:', result.error);
-                }
-            })
-            .catch(error => {
-                console.error('Error with order submission:', error);
-            });
+                .then(response => response.json())
+                .then(result => {
+                    if (result && result._id) { // Ensure order was successfully created
+                        console.log("Order successfully created:", result);
+                    } else {
+                        console.error('Error submitting order:', result.error);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error with order submission:', error);
+                });
         },
-        
+
 
         getLessonLocation(lessonId) {
             const lesson = this.lessons.find(lesson => lesson.id === lessonId);

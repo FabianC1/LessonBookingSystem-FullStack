@@ -171,14 +171,14 @@ app.post('/collections/:collectionName', async function (req, res, next) {
       lessons: validLessons,
       createdAt: new Date() // timestamp for order creation
    };
-   
+
    try {
       // Dynamically access the collection specified by the URL parameter
       const collection = db.collection(collectionName);  // 'Orders' collection if the URL is /collections/Orders
-   
+
       // Insert the new order into the "Orders" collection
       const result = await collection.insertOne(newOrder);
-   
+
       // Return a success response with the inserted order ID
       res.status(201).json({ message: 'Order created successfully', orderId: result.insertedId });
    } catch (error) {
