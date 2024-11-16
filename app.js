@@ -189,6 +189,34 @@ app.post('/collections/:collectionName', async function (req, res, next) {
 
 
 
+// Search route
+app.get('/search', async (req, res) => {
+   const searchTerm = req.query.q;  // Search term from the query string
+   if (!searchTerm) {
+       return res.status(400).json({ error: 'Search term is required' });
+   }
+
+   try {
+       // Perform case-insensitive regex search across multiple fields
+       const results = await db.collection('products').find({
+           $or: [
+               { subject: { $regex: searchTerm, $options: 'i' } },
+               { location: { $regex: searchTerm, $options: 'i' } },
+               { price: { $regex: searchTerm, $options: 'i' } },
+               { spaces: { $regex: searchTerm, $options: 'i' } }
+           ]
+       }).toArray();
+
+       if (results.length === 0) {
+           return res.status(404).json({ error: 'No products found matching the search term' });
+       }
+
+       res.json(results);
+   } catch (err) {
+       console.error(err);
+       res.status(500).json({ error: 'Server error' });
+   }
+});
 
 
 

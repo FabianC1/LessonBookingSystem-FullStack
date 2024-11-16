@@ -70,6 +70,21 @@ let app = new Vue({
     },
 
     methods: {
+        handleSearch(event) {
+            const searchTerm = event.target.value.trim();
+            if (searchTerm) {
+                // Send search request to the backend
+                fetch(`/search?q=${searchTerm}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        this.results = data; // Update results from backend response
+                    })
+                    .catch(error => console.error("Search error:", error));
+            } else {
+                this.results = []; // Clear results if no search query
+            }
+        },
+
         toggleCart() {
             this.showLessonPage = !this.showLessonPage; // Toggle the page
         },
@@ -209,3 +224,5 @@ let app = new Vue({
         },
     }
 });
+
+

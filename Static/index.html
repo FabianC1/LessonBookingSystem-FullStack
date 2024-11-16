@@ -82,6 +82,7 @@
                         <img :src="lesson.image" :alt="lesson.subject">
                         <p>Location: {{ lesson.location }}</p>
                         <p>Price: ${{ lesson.price }}</p>
+                        <p>Duration: {{ lesson.duration }} hours</p>
                         <p>Spaces: {{ lesson.spaces }} / 5</p>
                         <button :disabled="lesson.spaces === 0" @click="bookSpace(lesson)">
                             Add to cart
