@@ -19,7 +19,10 @@ let app = new Vue({
     created() {
         const collectionName = "products";
         fetch(`http://localhost:3000/collections/${collectionName}`, {
-            method: 'GET'
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            }
         })
             .then(response => response.json())
             .then(data => {
