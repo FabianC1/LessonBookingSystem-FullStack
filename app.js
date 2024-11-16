@@ -11,8 +11,6 @@ let propertiesReader = require("properties-reader");
 let propertiesPath = path.resolve(__dirname, "conf/db.properties");
 let properties = propertiesReader(propertiesPath);
 let dbPprefix = properties.get("db.prefix");
-//URL-Encoding of User and PWD
-//for potential special characters
 let dbUsername = encodeURIComponent(properties.get("db.user"));
 let dbPwd = encodeURIComponent(properties.get("db.pwd"));
 let dbName = properties.get("db.dbName");
@@ -65,7 +63,7 @@ app.param('collectionName'
 app.get('/collections/:collectionName', async (req, res, next) => {
    const { collectionName } = req.params;  // Get the collection name from the URL
    try {
-      const collection = db.collection(collectionName); // Dynamically access the collection
+      const collection = db.collection(collectionName);
       const results = await collection.find().toArray(); // Fetch data from the collection
       res.json(results); // Send the results as JSON
    } catch (error) {
@@ -125,8 +123,8 @@ app.put('/collections/:collectionName/:id', function (req, res, next) {
    // Update the lesson with the new spaces value
    req.collection.updateOne(
       { _id: new ObjectId(req.params.id) }, // Find the lesson by _id
-      { $set: { spaces: spaces } }, // Update the spaces field
-      { safe: true, multi: false }, // Ensure safe update and only one document
+      { $set: { spaces: spaces } },
+      { safe: true, multi: false },
       function (err, result) {
          if (err) {
             return next(err); // Handle any errors
@@ -160,7 +158,7 @@ app.post('/collections/:collectionName', async function (req, res, next) {
    // Now that all lesson IDs are validated, create the validLessons array
    const validLessons = lessons.map(lesson => ({
       lessonId: new ObjectId(lesson.lessonId), // Convert to ObjectId if valid
-      subject: lesson.subject, // Include subject here
+      subject: lesson.subject,
       spaces: lesson.spaces // spaces purchased for the lesson
    }));
 
@@ -193,32 +191,30 @@ app.post('/collections/:collectionName', async function (req, res, next) {
 app.get('/search', async (req, res) => {
    const searchTerm = req.query.q;  // Search term from the query string
    if (!searchTerm) {
-       return res.status(400).json({ error: 'Search term is required' });
+      return res.status(400).json({ error: 'Search term is required' });
    }
 
    try {
-       // Perform case-insensitive regex search across multiple fields
-       const results = await db.collection('products').find({
-           $or: [
-               { subject: { $regex: searchTerm, $options: 'i' } },
-               { location: { $regex: searchTerm, $options: 'i' } },
-               { price: { $regex: searchTerm, $options: 'i' } },
-               { spaces: { $regex: searchTerm, $options: 'i' } }
-           ]
-       }).toArray();
+      // Perform case-insensitive regex search across multiple fields
+      const results = await db.collection('products').find({
+         $or: [
+            { subject: { $regex: searchTerm, $options: 'i' } },
+            { location: { $regex: searchTerm, $options: 'i' } },
+            { price: { $regex: searchTerm, $options: 'i' } },
+            { spaces: { $regex: searchTerm, $options: 'i' } }
+         ]
+      }).toArray();
 
-       if (results.length === 0) {
-           return res.status(404).json({ error: 'No products found matching the search term' });
-       }
+      if (results.length === 0) {
+         return res.status(404).json({ error: 'No products found matching the search term' });
+      }
 
-       res.json(results);
+      res.json(results);
    } catch (err) {
-       console.error(err);
-       res.status(500).json({ error: 'Server error' });
+      console.error(err);
+      res.status(500).json({ error: 'Server error' });
    }
 });
-
-
 
 
 // Last middleware: Handles 404 errors for undefined routes

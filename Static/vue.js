@@ -16,6 +16,7 @@ let app = new Vue({
         phone: '',
         checkoutMessage: '',
     },
+    
     created() {
         const collectionName = "products";
         fetch(`http://localhost:3000/collections/${collectionName}`, {
@@ -30,8 +31,8 @@ let app = new Vue({
                 this.updateLessonsFromCart();
             })
             .catch(error => console.error("Error fetching data:", error));
-    }
-    ,
+    },
+
     computed: {
         isCartDisabled() {
             return this.cart.length === 0 && this.showLessonPage;
@@ -51,7 +52,7 @@ let app = new Vue({
                     priceValid = false;
                 }
 
-                return priceValid && (!this.excludeFull || lesson.spaces > 0);  // Adjusted to remove search filter
+                return priceValid && (!this.excludeFull || lesson.spaces > 0);  // Adjusted to remove search filter. Only backend search works.
             }).sort((a, b) => {
                 let modifier = this.sortOrder === "ascending" ? 1 : -1;
                 if (this.sortAttribute === "price" || this.sortAttribute === "spaces" || this.sortAttribute === "duration") {
@@ -196,7 +197,6 @@ let app = new Vue({
             }
         },
 
-
         uploadOrder(orderData) {
             // Submit the order to the backend (to create a new order in the database)
             fetch('http://localhost:3000/collections/Orders', {
@@ -218,7 +218,6 @@ let app = new Vue({
                     console.error('Error with order submission:', error);
                 });
         },
-
 
         getLessonLocation(lessonId) {
             const lesson = this.lessons.find(lesson => lesson.id === lessonId);
