@@ -102,6 +102,7 @@ let app = new Vue({
                 });
 
                 lesson.spaces--; // Decrease available spaces locally (front-end)
+                this.isOrderSubmitted = false;
             } else {
                 alert("This lesson is full!");
             }
