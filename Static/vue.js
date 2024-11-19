@@ -163,7 +163,7 @@ let app = new Vue({
                 // Update lesson spaces after submitting the order
                 this.cart.forEach(item => {
                     const lesson = this.lessons.find(lesson => lesson.id === item.lessonId);
-                    if (lesson && lesson.spaces > 0) {
+                    if (lesson && lesson.spaces >= 0) {
                         const updatedSpaces = lesson.spaces;
 
                         // Update the lesson availability in the database
