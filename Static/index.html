@@ -25,6 +25,14 @@
         <main>
             <!-- Sidebar for sorting controls -->
             <div class="sidebar">
+
+                <!-- Search Section -->
+                <div class="search-section">
+                    <h2>Search</h2>
+                    <label for="search">Search:</label>
+                    <input type="text" v-model="searchQuery" @input="handleSearch" placeholder="Search for lessons" />
+                </div>
+
                 <!-- Sorting Section -->
                 <div class="sorting-section">
                     <h2>Sort</h2>
@@ -61,13 +69,6 @@
                         <button @click="applyChanges">Apply Changes</button>
                         <button @click="resetChanges">Reset Changes</button>
                     </div>
-                </div>
-
-                <!-- Search Section -->
-                <div class="search-section">
-                    <h2>Search</h2>
-                    <label for="search">Search:</label>
-                    <input type="text" v-model="searchQuery" @input="handleSearch" placeholder="Search for lessons" />
                 </div>
 
                 <p v-if="priceError" style="color: red;">{{ priceError }}</p>
